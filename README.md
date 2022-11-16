@@ -81,15 +81,15 @@ checkSyntax("   (      [)") == 1
 Реализуйте функцию ```parseUrl(string)```, которая будет парсить URL строку и возвращать объект с распарсенными данными. Пример:
 
 ```js
-let a = parseUrl('http://tutu.ru:8080/do/any.php?a=1&b[]=a&b[]=b#foo')
+let a = parseUrl('http://sys.it-co.ru:8080/do/any.php?a=1&b[]=a&b[]=b#foo')
 
 // Вернет объект, в котором будут следующие свойства:
-console.log( a.href == "http://sys.it-co.ru.ru:8080/do/any.php?a=1&b[]=a&b[]=b#foo" )
+console.log( a.href == "http://sys.it-co.ru:8080/do/any.php?a=1&b[]=a&b[]=b#foo" )
 console.log( a.hash == "#foo" )
 console.log( a.port == "8080" )
 console.log( a.host == "sys.it-co.ru:8080" )
 console.log( a.protocol == "http:" )
-console.log( a.hostname == "tutu.ru" )
+console.log( a.hostname == "sys.it-co.ru" )
 console.log( a.pathname == "/do/any.php" )
 console.log( a.origin == "http://sys.it-co.ru:8080" )
 ```
