@@ -1,5 +1,4 @@
 # Тестовое задание на позицию javascrpt разработчик (frontend)
-При решении задания нельзя использовать готовые фреймворки и компоненты. Нас интересует как вы умеете решать подобные задачи и создавать что-то с нуля. Обратите внимание, во всех задачах отсутствует привязка к конкретному языку или к его особенностям, для нас важно ваше умение строить алгоритмы, реализовывать базовые функции и писать читаемый код.
 
 ## Базовые знания JS
 ### Задача №1
@@ -278,6 +277,52 @@ console.log(indexOfSum([0, 1, 5, 9], 10));
 Реализуйте функцию ```parseUrl(string)```, которая будет парсить URL строку и возвращать объект с распарсенными данными. Пример:
 
 ```js
+let a = parseUrl('http://sys.it-co.ru:8080/do/any.php?a=1&b[]=a&b[]=b#foo')
+
+// Вернет объект, в котором будут следующие свойства:
+console.log( a.href == "http://sys.it-co.ru:8080/do/any.php?a=1&b[]=a&b[]=b#foo" )
+console.log( a.hash == "#foo" )
+console.log( a.port == "8080" )
+console.log( a.host == "sys.it-co.ru:8080" )
+console.log( a.protocol == "http:" )
+console.log( a.hostname == "sys.it-co.ru" )
+console.log( a.pathname == "/do/any.php" )
+console.log( a.origin == "http://sys.it-co.ru:8080" )
+```
+
+#### Решение 
+Код решения с тестами.
+
+```js
+"use strict";
+
+class Url {
+    constructor(href, hash, host, port, protocol, hostname, pathname, origin) {
+        this.href = href;
+        this.hash = hash;
+        this.port = port;
+        this.host = host;
+        this.protocol = protocol;
+        this.hostname = hostname;
+        this.pathname = pathname;
+        this.origin = origin;
+    }
+}
+
+function parseUrl(string) {
+    let hash = '#' + string.split('#')[1];
+    let host = string.split('/')[2];
+    let port = host.split(':')[1];
+    let protocol = string.split('/')[0]
+    let hostname = host.split(':')[0];
+    let origin = protocol + '//' + host;
+    let pathname = string.split('?')[0].replace(origin, '');
+    if (string.split('#')[1] == undefined) hash = '';
+    if (host.split(':')[1] == undefined) port = '';
+    let url = new Url(string, hash, host, port, protocol, hostname, pathname, origin);
+    return url 
+}
+
 let a = parseUrl('http://sys.it-co.ru:8080/do/any.php?a=1&b[]=a&b[]=b#foo')
 
 // Вернет объект, в котором будут следующие свойства:
