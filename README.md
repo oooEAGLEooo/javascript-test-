@@ -291,7 +291,9 @@ console.log( a.origin == "http://sys.it-co.ru:8080" )
 ```
 
 #### Решение 
-Код решения с тестами.
+Можно предложить несколько решений. 
+
+Первый вариант описать класс ```Url```. В функции ```parseUrl(string)``` описать алгоритм парсинга строки на составные данные и создать объект класса ```Url``` и вернуть этот объект при выходе из функции. Данное решение с тестами представлено ниже.
 
 ```js
 "use strict";
@@ -313,7 +315,7 @@ function parseUrl(string) {
     let hash = '#' + string.split('#')[1];
     let host = string.split('/')[2];
     let port = host.split(':')[1];
-    let protocol = string.split('/')[0]
+    let protocol = string.split('/')[0];
     let hostname = host.split(':')[0];
     let origin = protocol + '//' + host;
     let pathname = string.split('?')[0].replace(origin, '');
@@ -336,7 +338,51 @@ console.log( a.pathname == "/do/any.php" )
 console.log( a.origin == "http://sys.it-co.ru:8080" )
 ```
 
-## Комментарии
-Результат выполнения задания нужно будет оформить здесь же, на гитхабе. В качестве ответа не нужно присылать никаких(!) ZIP архивов и наборов файлов. Все ваши ответы должны быть оформлены на https://github.com/ . Вы присылаете только ссылку на ваш репозиторий. У нас в компании применяется GIT, и если вы его не знаете, вам стоит освоить данную систему SCM самостоятельно. Если у вас еще нет аккаунта, то это хороший повод его завести.
+Второй вариант описать класс ```Url``` с конструктором ```constructor(href)``` и описать весь алгоритм парсинга на составные данные в нём. В функции ```parseUrl(string)``` создать объект класса ```Url``` и вернуть этот объект при выходе из функции. Данное решение с тестами представлено ниже.
 
-Если есть вопросы, вы всегда их можете задать, связавшись с человеком, который выдал вам задание.
+```js
+"use strict";
+
+class Url {
+    href
+    hash
+    host
+    port
+    protocol
+    hostname
+    pathname
+    origin
+
+    constructor(href) {
+        this.href = href;
+        this.hash = '#' + href.split('#')[1];
+        this.host = href.split('/')[2];
+        this.port = this.host.split(':')[1];
+        this.protocol = href.split('/')[0];
+        this.hostname = this.host.split(':')[0];
+        this.origin = this.protocol + '//' + this.host;
+        this.pathname = href.split('?')[0].replace(this.origin, '');
+        if (this.href.split('#')[1] == undefined) this.hash = '';
+        if (this.host.split(':')[1] == undefined) this.port = '';
+    }
+}
+
+function parseUrl(string) {
+    let url = new Url(string);
+    return url 
+}
+
+let a = parseUrl('http://sys.it-co.ru:8080/do/any.php?a=1&b[]=a&b[]=b#foo')
+
+// Вернет объект, в котором будут следующие свойства:
+console.log( a.href == "http://sys.it-co.ru:8080/do/any.php?a=1&b[]=a&b[]=b#foo" )
+console.log( a.hash == "#foo" )
+console.log( a.port == "8080" )
+console.log( a.host == "sys.it-co.ru:8080" )
+console.log( a.protocol == "http:" )
+console.log( a.hostname == "sys.it-co.ru" )
+console.log( a.pathname == "/do/any.php" )
+console.log( a.origin == "http://sys.it-co.ru:8080" )
+```
+
+Возможных вариантов реализации данной задачи много. Выбирать нужно исходя из наших потребностей. 
