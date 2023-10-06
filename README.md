@@ -148,6 +148,7 @@ console.log(checkSyntax("   (      [)"));
 ```
 
 Решение, если нужно проверять только такой набор скобок: <,[,{
+
 ```js
 "use strict";
 
@@ -184,6 +185,49 @@ console.log(checkSyntax("   (      [)"));
 
 Решение изменилось взависимости от набора скобок. Поэтому на мой взгляд удобнее создать универсальное решение, код которого не изменится от набора скобок. Набор скобок можно передавать в качестве параметров при вызове функции. Данное решение является более ёмким по коду, но тогда функция будет проверять синтаксическую верность на набор скобок которые мы передадим ей в качестве параметров.
 
+Универсальное решение с тестами. При вызове данной функции в качестве второго параметра указывается массив с набором скобок, по которым будет проводиться анализ синтаксической верности. Так же если не указывать этот параметр при вызове, то сработает значение параметра по умолчанию с наьором скобок <,[,{,(
+
+```js
+"use strict";
+
+function checkSyntax(string, spaples = ['()', '{}', '[]', '<>']) {
+    let openStaples = new Array();
+    let closeStaples = new Array();
+    let arrSpaples = new Array();
+    for (let i = 0; i < spaples.length; i++) {
+        openStaples.push(spaples[i][0]);
+        closeStaples.push(spaples[i][1]);
+    }
+    openStaples = openStaples.join();
+    closeStaples = closeStaples.join();
+    for (let i = 0; i < string.length; i++) {
+            if (closeStaples.includes(string[i])) {
+                if (arrSpaples.length < 1) {
+                    return 1;
+                } else if (string[i] == arrSpaples[arrSpaples.length - 1]){
+                    arrSpaples.pop();
+                }
+            } else if (openStaples.includes(string[i])) {
+                if (string[i] == '(') arrSpaples.push(')');
+                if (string[i] == '<') arrSpaples.push('>');
+                if (string[i] == '[') arrSpaples.push(']');
+                if (string[i] == '{') arrSpaples.push('}');
+            }
+    }
+    if (arrSpaples.length < 1) {
+        return 0;
+    } else return 1
+}
+
+console.log(checkSyntax("---(++++)----", ['()', '{}']));
+console.log(checkSyntax(""));
+console.log(checkSyntax("before ( middle [] after ", ['[]']));
+console.log(checkSyntax(") ("), ['<>', '{}', '[]']);
+console.log(checkSyntax("} {"));
+console.log(checkSyntax("<(   >)"));
+console.log(checkSyntax("(  [  <>  ()  ]  <>  )", ['<>', '{}']));
+console.log(checkSyntax("   (      [)"));
+```
 
 ## Алгоритмы
 ### Задача №1
