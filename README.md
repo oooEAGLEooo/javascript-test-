@@ -108,6 +108,83 @@ checkSyntax("   (      [)") == 1
 // и так далее...
 ```
 
+
+#### Решение 
+Решение и тесты, если нужно проверять следующий набор скобок: <,[,{,(
+
+```js
+"use strict";
+
+function checkSyntax(string) {
+    let arr = new Array();
+    let openStaples = "<[{(", closeStaples = ">]})";
+    for (let i = 0; i < string.length; i++) {
+            if (closeStaples.includes(string[i])) {
+                if (arr.length < 1) {
+                    return 1;
+                } else if (string[i] == arr[arr.length - 1]){
+                    arr.pop();
+                }
+            } else if (openStaples.includes(string[i])) {
+                if (string[i] == '(') arr.push(')');
+                if (string[i] == '<') arr.push('>');
+                if (string[i] == '[') arr.push(']');
+                if (string[i] == '{') arr.push('}');
+            }
+    }
+    if (arr.length < 1) {
+        return 0;
+    } else return 1
+}
+
+console.log(checkSyntax("---(++++)----"));
+console.log(checkSyntax(""));
+console.log(checkSyntax("before ( middle []) after "));
+console.log(checkSyntax(") ("));
+console.log(checkSyntax("} {"));
+console.log(checkSyntax("<(   >)"));
+console.log(checkSyntax("(  [  <>  ()  ]  <>  )"));
+console.log(checkSyntax("   (      [)"));
+```
+
+Решение, если нужно проверять только такой набор скобок: <,[,{
+```js
+"use strict";
+
+function checkSyntax(string) {
+    let arr = new Array();
+    let openStaples = "<[{", closeStaples = ">]}";
+    for (let i = 0; i < string.length; i++) {
+            if (closeStaples.includes(string[i])) {
+                if (arr.length < 1) {
+                    return 1;
+                } else if (string[i] == arr[arr.length - 1]){
+                    arr.pop();
+                }
+            } else if (openStaples.includes(string[i])) {
+                if (string[i] == '<') arr.push('>');
+                if (string[i] == '[') arr.push(']');
+                if (string[i] == '{') arr.push('}');
+            }
+    }
+    if (arr.length < 1) {
+        return 0;
+    } else return 1
+}
+
+console.log(checkSyntax("---(++++)----"));
+console.log(checkSyntax(""));
+console.log(checkSyntax("before ( middle []) after "));
+console.log(checkSyntax(") ("));
+console.log(checkSyntax("} {"));
+console.log(checkSyntax("<(   >)"));
+console.log(checkSyntax("(  [  <>  ()  ]  <>  )"));
+console.log(checkSyntax("   (      [)"));
+```
+
+Решение изменилось взависимости от набора скобок. Поэтому пожно истользовать универсальное решение, код которого не изменится от набора скобок. Набор скобок можно передавать в качестве параметров при вызове функции.
+
+
 ## Алгоритмы
 ### Задача №1
 Реализовать функцию, на вход которой передаются 
